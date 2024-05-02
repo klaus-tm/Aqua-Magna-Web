@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./config/firebase";
+import { ThemeProvider, useMediaQuery } from "@mui/material";
+import { darkTheme, lightTheme } from "./config/theme";
+
 
 function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsSignedIn(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={isSignedIn ? <Home /> : <SignIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
