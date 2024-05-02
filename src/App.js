@@ -5,9 +5,7 @@ import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./config/firebase";
-import { ThemeProvider, useMediaQuery } from "@mui/material";
-import { darkTheme, lightTheme } from "./config/theme";
+import { auth } from "./config/firebaseElements";
 
 
 function App() {
