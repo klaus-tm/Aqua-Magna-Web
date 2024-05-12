@@ -1,14 +1,17 @@
+// Email.js
 import { MailOutline } from "@mui/icons-material";
 import { FormControl, OutlinedInput, InputLabel, InputAdornment } from "@mui/material";
 import * as React from "react";
 
-export default function Email() {
+export default function Email({ onChange }) {
     const [email, setEmail] = React.useState("");
     const [emailError, setEmailError] = React.useState(false);
 
     const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
-        setEmailError(!validateEmail(event.target.value));
+        const newEmail = event.target.value;
+        setEmail(newEmail);
+        setEmailError(!validateEmail(newEmail));
+        onChange(newEmail);
     };
 
     const validateEmail = (email) => {

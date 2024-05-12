@@ -2,8 +2,9 @@ import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } fr
 import { PasswordOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import * as React from "react";
 
-export default function Password() {
+export default function Password({ onChange }) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const [password, setPassword] = React.useState("");
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -11,14 +12,20 @@ export default function Password() {
         event.preventDefault();
     };
 
+    const handleChangePassword = (event) => {
+        const newPassword = event.target.value;
+        setPassword(newPassword);
+        onChange(newPassword);
+    };
+
     return (
         <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel htmlFor="outlined-adornment-password">
-                Password
-            </InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={handleChangePassword}
                 startAdornment={
                     <InputAdornment position="start">
                         <PasswordOutlined />
