@@ -1,17 +1,99 @@
 import { ThemeProvider } from "@emotion/react";
-import { IconButton, Toolbar, AppBar, Avatar, Button, Paper, useMediaQuery, Typography, Box } from "@mui/material";
+import { Snackbar, IconButton, Toolbar, AppBar, Avatar, Button, Paper, useMediaQuery, Typography, Box } from "@mui/material";
 import { darkTheme, lightTheme } from "../config/theme";
 import Email from "../components/Email";
 import Name from "../components/Name";
 import Address from "../components/Address";
 import City from "../components/City";
 import Country from "../components/Country";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, database } from "../config/firebaseElements";
+import { useEffect, useState } from "react";
+import { get, ref, set } from "firebase/database";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 export default function Profile() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === "clickaway") { return; }
+        setOpenSnackbar(false);
+    }
+
+    const handleSignOut = () => {
+        auth.signOut().then(() => {
+            navigate("/");
+        });
+    }
+
+    const handleEmailChange = (newEmail) => {
+        setEmail(newEmail);
+    };
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const fetchCompany = async () => {
+                    try {
+                        const companyRef = ref(database, `companies/${user.uid}`);
+                        const snapshot = await get(companyRef);
+                        if (snapshot.exists()) {
+                            setName(snapshot.val().name);
+                            setAddress(snapshot.val().address);
+                            setCity(snapshot.val().city);
+                            setCountry(snapshot.val().country);
+                            setEmail(snapshot.val().email);
+                        } else throw new Error("Account is not a company");
+                    }
+                    catch (error) {
+                        console.error(error.message);
+                    }
+                }
+
+                fetchCompany();
+            } else {
+                console.error("Account not logged in");
+                navigate("/signIn");
+            }
+        });
+        return () => {
+            unsubscribe();
+        }
+    }, [navigate]);
+
+    const handleSaveDetails = async () => {
+        try {
+            const user = await auth.currentUser;
+            const companiesRef = ref(database, `companies/${user.uid}`);
+            await set(companiesRef, {
+                name,
+                address,
+                city,
+                country,
+                email
+            }).then(() => {
+                setSnackbarMessage("Details saved successfully!");
+                setOpenSnackbar(true);
+            })
+        }
+        catch (error) {
+            console.error("Error saving details:", error.message);
+            setSnackbarMessage("Problem saving details!");
+            setOpenSnackbar(true);
+        }
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <AppBar position="static" elevation={10}>
@@ -26,8 +108,22 @@ export default function Profile() {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <div
-                style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 64px)" }}>
+            <Box
+                style={{
+                    position: 'fixed', // Apply fixed positioning
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    zIndex: -1, // Ensure the background is behind other content
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
                 <Paper
                     elevation={10}
                     style={{ padding: 24, width: 500, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
@@ -36,45 +132,41 @@ export default function Profile() {
                         src="logo512.png"
                         style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
                     <Typography variant="h4" align="center" gutterBottom>
-                        Details of company:
+                        Details of company: {name}
                     </Typography>
                     <Box display="flex" flexDirection="row" gap={2}>
-                        <Name />
-                        <Address />
+                        <Name onChange={(value) => setName(value)} value={name} />
+                        <Address onChange={(value) => setAddress(value)} value={address} />
                     </Box>
                     <Box display="flex" flexDirection="row" gap={2}>
-                        <City />
-                        <Country />
+                        <City onChange={(value) => setCity(value)} value={city} />
+                        <Country onChange={(value) => setCountry(value)} value={country} />
                     </Box>
-                    <Email />
+                    <Email onChange={handleEmailChange} value={email} />
                     <Box display="flex" flexDirection="row" gap={2} mt={2}>
                         <Button
                             fullWidth
                             variant="contained"
                             color="primary"
-                            href="">
+                            onClick={handleSaveDetails}>
                             Save details
                         </Button>
                         <Button
                             fullWidth
-                            variant="text">
+                            variant="text"
+                            onClick={handleSignOut}>
                             Sign out
                         </Button>
                     </Box>
-                    <Button
-                        fullWidth
-                        variant="text"
-                        sx={{
-                            mt: 2,
-                            color: theme.palette.error.main,
-                            '&:hover': {
-                                backgroundColor: theme.palette.error.onMain,
-                            }
-                        }}>
-                        Delete company
-                    </Button>
+                    <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={3000} // Snackbar will auto-hide after 3 seconds
+                        onClose={handleCloseSnackbar}
+                        message={snackbarMessage}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    />
                 </Paper>
-            </div>
+            </Box>
         </ThemeProvider>
     )
 }

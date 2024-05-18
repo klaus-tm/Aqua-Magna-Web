@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Height } from '@mui/icons-material';
+
 
 export default function WelcomePage() {
   return (
@@ -16,6 +16,7 @@ export default function WelcomePage() {
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Aqua Magna
           </Typography>
+          <Button href='/signUp'>New company? Sign up!</Button>
           <Button href='/signIn'>Login</Button>
         </Toolbar>
       </AppBar>

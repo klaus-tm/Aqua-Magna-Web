@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
-import { useMediaQuery, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, AppBar, Toolbar, IconButton, Avatar, Typography, Button, Popover } from "@mui/material";
+import { useMediaQuery, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, AppBar, Toolbar, IconButton, Avatar, Typography, Button, Popover, Box } from "@mui/material";
 import { darkTheme, lightTheme } from "../config/theme";
 import { useEffect, useState } from "react";
 import { get, off, onValue, ref } from "firebase/database";
@@ -58,6 +58,7 @@ export default function Home() {
                     const scan = scans[id];
                     if (scan.company === companyName) {
                         const userName = await getUserName(scan.user);
+                        const [latitude, longitude] = scan.location.split(",");
                         newScans.unshift(ScanData(scan.user, userName, scan.date, scan.location, scan.ph, scan.turbidity, scan.conductivity));
                     }
                 }
@@ -82,6 +83,7 @@ export default function Home() {
 
     const open = Boolean(anchorEl);
 
+
     return (
         <ThemeProvider theme={theme}>
             <AppBar position="static" elevation={10}>
@@ -97,43 +99,63 @@ export default function Home() {
                     <Button href='/profile'>Profile</Button>
                 </Toolbar>
             </AppBar>
-            <div style={{ padding: 24 }}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Employee name</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Date</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Location</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>pH</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Turbidity&nbsp;(NTU)</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Conductivity&nbsp;(mS/cm)</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell align="center"
-                                        onMouseOver={(event) => handlePopoverOpen(event, row.uid)}
-                                        onMouseLeave={handlePopoverClose}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.date}</TableCell>
-                                    <TableCell align="center">
-                                        <a href={`https://www.google.com/maps/search/?api=1&query=${row.location}`} target="_blank" rel="noopener noreferrer">
-                                            {row.location}
-                                        </a></TableCell>
-                                    <TableCell align="center">{row.ph}</TableCell>
-                                    <TableCell align="center">{row.turbidity}</TableCell>
-                                    <TableCell align="center">{row.conductivity}</TableCell>
+            <Box
+                style={{
+                    position: 'fixed', // Apply fixed positioning
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    zIndex: -1, // Ensure the background is behind other content
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: 24,
+                }}
+            >
+                <div style={{ paddingTop: 64 }}>
+                    <TableContainer component={Paper} >
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Index</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Employee</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Date</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Location&nbsp;(latitude,longitude)</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>pH</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Turbidity&nbsp;(NTU)</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Conductivity&nbsp;(mS/cm)</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row, index) => (
+                                    <TableRow
+                                        key={index}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell align="center" >{index + 1}</TableCell>
+                                        <TableCell align="center"
+                                            onMouseOver={(event) => handlePopoverOpen(event, row.uid)}
+                                            onMouseLeave={handlePopoverClose}>
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell align="center">{row.date}</TableCell>
+                                        <TableCell align="center">
+                                            <a href={`https://www.google.com/maps/search/?api=1&query=${row.location}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {row.location}
+                                            </a></TableCell>
+                                        <TableCell align="center">{row.ph}</TableCell>
+                                        <TableCell align="center">{row.turbidity}</TableCell>
+                                        <TableCell align="center">{row.conductivity}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+
+            </Box>
             <Popover
                 open={open}
                 anchorEl={anchorEl}

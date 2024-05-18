@@ -2,7 +2,7 @@ import { Business } from "@mui/icons-material";
 import { InputAdornment, TextField } from "@mui/material";
 
 
-export default function Name({ onChange }) {
+export default function Name({ value, onChange }) {
     const handleChange = (event) => {
         onChange(event.target.value);
     };
@@ -14,6 +14,7 @@ export default function Name({ onChange }) {
             margin="normal"
             fullWidth
             onChange={handleChange}
+            value = {value}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">

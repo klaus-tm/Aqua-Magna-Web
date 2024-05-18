@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { Avatar, Button, Paper, useMediaQuery, Typography, Box, Snackbar, CircularProgress } from "@mui/material";
+import { Avatar, Button, Paper, useMediaQuery, Typography, Box, Snackbar, CircularProgress, IconButton, Toolbar, AppBar } from "@mui/material";
 import { darkTheme, lightTheme } from "../config/theme";
 import Email from "../components/Email";
 import Password from "../components/Password";
@@ -7,11 +7,11 @@ import Name from "../components/Name";
 import Address from "../components/Address";
 import City from "../components/City";
 import Country from "../components/Country";
-import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
 import { auth, database } from "../config/firebaseElements";
 import { ref, set } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function SignUp() {
@@ -28,6 +28,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false)
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [isSignedIn, setIsSignedIn] = useState(false);
     const navigate = useNavigate();
 
     const handleSignUp = async () => {
@@ -44,7 +45,8 @@ export default function SignUp() {
                     name,
                     address,
                     city,
-                    country
+                    country,
+                    email
                 });
 
                 navigate("/")
@@ -70,10 +72,50 @@ export default function SignUp() {
         setPassword(newPassword);
     };
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setIsSignedIn(!!user);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (isSignedIn) {
+            navigate("/");
+        }
+    }, [isSignedIn, navigate]);
+
     return (
         <ThemeProvider theme={theme}>
-            <div
-                style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <AppBar position="static" elevation={10}>
+                <Toolbar>
+                    <Link to={"/"}>
+                        <IconButton edge="start" aria-label="menu">
+                            <Avatar src="logo192.png" />
+                        </IconButton>
+                    </Link>
+                    <Typography variant="h6" style={{ flexGrow: 1 }}>
+                        Aqua Magna
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Box
+                style={{
+                    position: 'fixed', // Apply fixed positioning
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    zIndex: -1, // Ensure the background is behind other content
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                 <Paper
                     elevation={10}
                     style={{ padding: 24, width: 500, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
@@ -118,7 +160,7 @@ export default function SignUp() {
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                     />
                 </Paper>
-            </div>
+            </Box>
         </ThemeProvider>
     )
 }

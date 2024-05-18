@@ -3,9 +3,13 @@ import { MailOutline } from "@mui/icons-material";
 import { FormControl, OutlinedInput, InputLabel, InputAdornment } from "@mui/material";
 import * as React from "react";
 
-export default function Email({ onChange }) {
-    const [email, setEmail] = React.useState("");
+export default function Email({ value, onChange }) {
+    const [email, setEmail] = React.useState(value || "");
     const [emailError, setEmailError] = React.useState(false);
+
+    React.useEffect(() => {
+        setEmail(value);
+    }, [value]);
 
     const handleChangeEmail = (event) => {
         const newEmail = event.target.value;

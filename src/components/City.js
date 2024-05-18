@@ -1,7 +1,7 @@
 import { LocationCity } from "@mui/icons-material";
 import { InputAdornment, TextField } from "@mui/material";
 
-export default function City({ onChange }) {
+export default function City({ value, onChange }) {
     const handleChange = (event) => {
         onChange(event.target.value);
     };
@@ -13,6 +13,7 @@ export default function City({ onChange }) {
             margin="normal"
             fullWidth
             onChange={handleChange}
+            value={value}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
