@@ -14,8 +14,8 @@ export default function SignIn() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;
 
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -73,7 +73,7 @@ export default function SignIn() {
         <AppBar position="static" elevation={10}>
             <Toolbar>
                 <Link to={"/"}>
-                    <IconButton edge="start" aria- label="menu" >
+                    <IconButton edge="start" aria-label="menu" >
                         <Avatar src="logo192.png" />
                     </IconButton >
                 </Link >
@@ -108,7 +108,7 @@ export default function SignIn() {
                 <Typography variant="h4" align="center" gutterBottom>
                     Welcome back!
                 </Typography>
-                <Email onChange={handleEmailChange} />
+                <Email onChange={handleEmailChange} value={email}/>
                 <Password onChange={handlePasswordChange} />
                 <Button
                     fullWidth

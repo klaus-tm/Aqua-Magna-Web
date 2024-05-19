@@ -18,8 +18,8 @@ export default function SignUp() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;
 
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -101,8 +101,8 @@ export default function SignUp() {
                 </Toolbar>
             </AppBar>
             <Box
-                style={{
-                    position: 'fixed', // Apply fixed positioning
+                sx={{
+                    position: 'fixed',
                     top: 0,
                     left: 0,
                     right: 0,
@@ -110,56 +110,73 @@ export default function SignUp() {
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    zIndex: -1, // Ensure the background is behind other content
+                    zIndex: -1,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                  }}>
-                <Paper
-                    elevation={10}
-                    style={{ padding: 24, width: 500, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
-                    <Avatar
-                        alt="Aqua Magna"
-                        src="logo512.png"
-                        style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
-                    <Typography variant="h4" align="center" gutterBottom>
-                        Register your company!
-                    </Typography>
-                    <Box display="flex" flexDirection="row" gap={2}>
-                        <Name onChange={(value) => setName(value)} />
-                        <Address onChange={(value) => setAddress(value)} />
-                    </Box>
-                    <Box display="flex" flexDirection="row" gap={2}>
-                        <City onChange={(value) => setCity(value)} />
-                        <Country onChange={(value) => setCountry(value)} />
-                    </Box>
-                    <Email onChange={handleEmailChange} />
-                    <Password onChange={handlePasswordChange} />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        style={{ marginTop: "24px", borderRadius: "20" }}
-                        onClick={handleSignUp}
-                        disabled={loading}>
-                        {loading ? <CircularProgress size={24}/> : "Create company"}
-                    </Button>
-                    <Button
-                        fullWidth
-                        variant="text"
-                        style={{ marginTop: "16px", marginBottom: "20px", textAlign: "center" }}
-                        href="/signIn">
-                        Company already created? Sign In!
-                    </Button>
-                    <Snackbar
-                        open={openSnackbar}
-                        autoHideDuration={3000} // Snackbar will auto-hide after 3 seconds
-                        onClose={handleCloseSnackbar}
-                        message={snackbarMessage}
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    />
-                </Paper>
+                    padding: 2,
+                }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexGrow: 1,
+                        width: '100%',
+                        maxWidth: '500px',
+                    }}>
+                    <Paper
+                        elevation={10}
+                        sx={{
+                            padding: 3,
+                            width: '100%',
+                            backgroundColor: theme.palette.secondary.container,
+                            borderRadius: "5%",
+                        }}>
+                        <Avatar
+                            alt="Aqua Magna"
+                            src="logo512.png"
+                            style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
+                        <Typography variant="h4" align="center" gutterBottom>
+                            Register your company!
+                        </Typography>
+                        <Box display="flex" flexDirection="row" gap={2}>
+                            <Name onChange={(value) => setName(value)} />
+                            <Address onChange={(value) => setAddress(value)} />
+                        </Box>
+                        <Box display="flex" flexDirection="row" gap={2}>
+                            <City onChange={(value) => setCity(value)} />
+                            <Country onChange={(value) => setCountry(value)} />
+                        </Box>
+                        <Email onChange={handleEmailChange} value={email}/>
+                        <Password onChange={handlePasswordChange} />
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            style={{ marginTop: "24px", borderRadius: "20" }}
+                            onClick={handleSignUp}
+                            disabled={loading}>
+                            {loading ? <CircularProgress size={24} /> : "Create company"}
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="text"
+                            style={{ marginTop: "16px", marginBottom: "20px", textAlign: "center" }}
+                            href="/signIn">
+                            Company already created? Sign In!
+                        </Button>
+                        <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={3000} // Snackbar will auto-hide after 3 seconds
+                            onClose={handleCloseSnackbar}
+                            message={snackbarMessage}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        />
+                    </Paper>
+                </Box>
             </Box>
         </ThemeProvider>
     )

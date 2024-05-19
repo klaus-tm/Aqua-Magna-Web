@@ -58,7 +58,6 @@ export default function Home() {
                     const scan = scans[id];
                     if (scan.company === companyName) {
                         const userName = await getUserName(scan.user);
-                        const [latitude, longitude] = scan.location.split(",");
                         newScans.unshift(ScanData(scan.user, userName, scan.date, scan.location, scan.ph, scan.turbidity, scan.conductivity));
                     }
                 }
@@ -100,8 +99,8 @@ export default function Home() {
                 </Toolbar>
             </AppBar>
             <Box
-                style={{
-                    position: 'fixed', // Apply fixed positioning
+                sx={{
+                    position: 'fixed',
                     top: 0,
                     left: 0,
                     right: 0,
@@ -109,15 +108,17 @@ export default function Home() {
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    zIndex: -1, // Ensure the background is behind other content
+                    zIndex: -1,
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: 24,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    padding: 2,
+                    pt: 10,
                 }}
             >
-                <div style={{ paddingTop: 64 }}>
-                    <TableContainer component={Paper} >
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableContainer component={Paper} sx={{ overflowY: 'auto', width: '100%' }}>
+                        <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center" style={{ fontWeight: "bold" }}>Index</TableCell>
@@ -153,8 +154,6 @@ export default function Home() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
-
             </Box>
             <Popover
                 open={open}

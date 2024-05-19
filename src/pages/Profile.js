@@ -109,8 +109,8 @@ export default function Profile() {
                 </Toolbar>
             </AppBar>
             <Box
-                style={{
-                    position: 'fixed', // Apply fixed positioning
+                sx={{
+                    position: 'fixed',
                     top: 0,
                     left: 0,
                     right: 0,
@@ -118,54 +118,71 @@ export default function Profile() {
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    zIndex: -1, // Ensure the background is behind other content
+                    zIndex: -1,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    padding: 2,
                 }}>
-                <Paper
-                    elevation={10}
-                    style={{ padding: 24, width: 500, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
-                    <Avatar
-                        alt="Aqua Magna"
-                        src="logo512.png"
-                        style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
-                    <Typography variant="h4" align="center" gutterBottom>
-                        Details of company: {name}
-                    </Typography>
-                    <Box display="flex" flexDirection="row" gap={2}>
-                        <Name onChange={(value) => setName(value)} value={name} />
-                        <Address onChange={(value) => setAddress(value)} value={address} />
-                    </Box>
-                    <Box display="flex" flexDirection="row" gap={2}>
-                        <City onChange={(value) => setCity(value)} value={city} />
-                        <Country onChange={(value) => setCountry(value)} value={country} />
-                    </Box>
-                    <Email onChange={handleEmailChange} value={email} />
-                    <Box display="flex" flexDirection="row" gap={2} mt={2}>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSaveDetails}>
-                            Save details
-                        </Button>
-                        <Button
-                            fullWidth
-                            variant="text"
-                            onClick={handleSignOut}>
-                            Sign out
-                        </Button>
-                    </Box>
-                    <Snackbar
-                        open={openSnackbar}
-                        autoHideDuration={3000} // Snackbar will auto-hide after 3 seconds
-                        onClose={handleCloseSnackbar}
-                        message={snackbarMessage}
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    />
-                </Paper>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexGrow: 1,
+                        width: '100%',
+                        maxWidth: '500px',
+                    }}>
+                    <Paper
+                        elevation={10}
+                        sx={{
+                            padding: 3,
+                            width: '100%',
+                            backgroundColor: theme.palette.secondary.container,
+                            borderRadius: "5%",
+                        }}>
+                        <Avatar
+                            alt="Aqua Magna"
+                            src="logo512.png"
+                            style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
+                        <Typography variant="h4" align="center" gutterBottom>
+                            Details of company: {name}
+                        </Typography>
+                        <Box display="flex" flexDirection="row" gap={2}>
+                            <Name onChange={(value) => setName(value)} value={name} />
+                            <Address onChange={(value) => setAddress(value)} value={address} />
+                        </Box>
+                        <Box display="flex" flexDirection="row" gap={2}>
+                            <City onChange={(value) => setCity(value)} value={city} />
+                            <Country onChange={(value) => setCountry(value)} value={country} />
+                        </Box>
+                        <Email onChange={handleEmailChange} value={email} />
+                        <Box display="flex" flexDirection="row" gap={2} mt={2}>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSaveDetails}>
+                                Save details
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant="text"
+                                onClick={handleSignOut}>
+                                Sign out
+                            </Button>
+                        </Box>
+                        <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={3000} // Snackbar will auto-hide after 3 seconds
+                            onClose={handleCloseSnackbar}
+                            message={snackbarMessage}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        />
+                    </Paper>
+                </Box>
             </Box>
         </ThemeProvider>
     )

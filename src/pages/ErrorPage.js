@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
-import { Avatar, Paper, Typography, useMediaQuery } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Avatar, Box, Paper, Typography, useMediaQuery } from "@mui/material";
 import { darkTheme, lightTheme } from "../config/theme";
+import { Link } from "react-router-dom";
 
 export default function ErrorPage() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -8,8 +9,34 @@ export default function ErrorPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <div
-                style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <AppBar position="static" elevation={10}>
+                <Toolbar>
+                    <Link to={"/"}>
+                        <IconButton edge="start" aria-label="menu">
+                            <Avatar src="logo192.png" />
+                        </IconButton>
+                    </Link>
+                    <Typography variant="h6" style={{ flexGrow: 1 }}>
+                        Aqua Magna
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Box
+                style={{
+                    position: 'fixed', // Apply fixed positioning
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    zIndex: -1, // Ensure the background is behind other content
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
                 <Paper
                     elevation={10}
                     style={{ padding: 24, width: 500, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
@@ -22,7 +49,7 @@ export default function ErrorPage() {
                     </Typography>
                 </Paper>
 
-            </div>
+            </Box>
         </ThemeProvider>
     )
 }

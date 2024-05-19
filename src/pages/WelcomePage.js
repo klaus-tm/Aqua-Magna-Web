@@ -16,7 +16,7 @@ export default function WelcomePage() {
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Aqua Magna
           </Typography>
-          <Button href='/signUp'>New company? Sign up!</Button>
+          <Button href='/signUp' align='center'>Sign up</Button>
           <Button href='/signIn'>Login</Button>
         </Toolbar>
       </AppBar>
