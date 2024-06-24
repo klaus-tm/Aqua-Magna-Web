@@ -2,7 +2,10 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-
+/**
+ * main page shown when there is no company logged in
+ * @returns the page populated with the appbar containing the app icon and name, signUp and login text buttons and a box with a welcome message
+ */
 export default function WelcomePage() {
   return (
     <div>

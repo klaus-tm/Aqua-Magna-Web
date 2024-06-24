@@ -13,7 +13,14 @@ import { auth, database } from "../config/firebaseElements";
 import { ref, set } from "firebase/database";
 import { Link, useNavigate } from "react-router-dom";
 
-
+/**
+ * page for the sign up part of the app.
+ * it has fields for email, password, name, address, city and country
+ * it creates the user in Auth when the sign up button is pressed
+ * it creates a child in the database after the account is created
+ * it redirects the user to thr login page when the login button is pressed
+ * @returns page populated with the appbar where the app icon and name sits and a paper with the fields and the buttons explained above
+ */
 export default function SignUp() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;

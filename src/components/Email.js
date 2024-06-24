@@ -1,8 +1,13 @@
-// Email.js
 import { MailOutline } from "@mui/icons-material";
 import { FormControl, OutlinedInput, InputLabel, InputAdornment } from "@mui/material";
 import * as React from "react";
 
+/**
+ * component used for the email text field across the app
+ * it uses handleChangeEmail and validateEmail to check if the input is a valid email address
+ * @param {*} param0 
+ * @returns TextField used for email
+ */
 export default function Email({ value, onChange }) {
     const [email, setEmail] = React.useState(value || "");
     const [emailError, setEmailError] = React.useState(false);

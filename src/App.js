@@ -9,7 +9,13 @@ import { auth } from "./config/firebaseElements";
 import ErrorPage from "./pages/ErrorPage";
 import WelcomePage from "./pages/WelcomePage";
 
-
+/**
+ * main structure handler of the app
+ * it creates the react router dom routes
+ * it checks if any Auth instance exists
+ * the index page is modified accordingly to the check above
+ * @returns the router structure with the corresponding pages and calls
+ */
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   useEffect(() => {

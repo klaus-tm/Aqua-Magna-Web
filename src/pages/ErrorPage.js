@@ -3,6 +3,11 @@ import { AppBar, Toolbar, IconButton, Avatar, Box, Paper, Typography, useMediaQu
 import { darkTheme, lightTheme } from "../config/theme";
 import { Link } from "react-router-dom";
 
+/**
+ * page called by react router dom when any of the stated links is not called.
+ * it shows an error 404 page with a message that this link is not created and you should go back
+ * @returns the whole page with a top appbar populated with the app icon and name, and the content box with its background image and a paper with the message
+ */
 export default function ErrorPage() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;

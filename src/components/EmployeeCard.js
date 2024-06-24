@@ -3,6 +3,12 @@ import { get, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { database } from "../config/firebaseElements";
 
+/**
+ * component used for the employee card used by the home table
+ * it gets the uid of the user and populates a paper with the user details
+ * @param {*} param0 
+ * @returns Paper used for the user details
+ */
 export default function EmployeeCard({ uid }) {
 
     const [name, setName] = useState("");

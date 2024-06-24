@@ -2,6 +2,12 @@ import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } fr
 import { PasswordOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import * as React from "react";
 
+/**
+ * component used for the password text field across the app
+ * it has handlers for the show or hide the password characters
+ * @param {*} param0 
+ * @returns FormControl used for password
+ */
 export default function Password({ onChange }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const [password, setPassword] = React.useState("");

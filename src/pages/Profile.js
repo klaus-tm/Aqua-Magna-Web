@@ -12,7 +12,13 @@ import { useEffect, useState } from "react";
 import { get, ref, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
-
+/**
+ * page used to view and modify the company details.
+ * it collects the data about the company from the database and populates the correspondent fields
+ * it saves the new data in the database when the save button is pressed
+ * it disconnects the company from the Auth instance and navigates back to the index page
+ * @returns page populated with the app bar with the app icon and name and a paper where the fields and buttons are placed
+ */
 export default function Profile() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = prefersDarkMode ? darkTheme : lightTheme;

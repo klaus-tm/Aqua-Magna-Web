@@ -9,6 +9,14 @@ import { auth, database } from "../config/firebaseElements";
 import { Link, useNavigate } from "react-router-dom";
 import { get, ref } from "firebase/database";
 
+/**
+ * page for the Login part of the app.
+ * it has fields for email and password
+ * it checks if the user exists in Auth when the login button is pressed
+ * it redirects the user to thr sign up page when the sign up button is pressed
+ * it redirects the user to the index page if the user exists and an Auth instance is created
+ * @returns page populated with the appbar where the app icon and name sits and a paper with the fields and the buttons explained above
+ */
 export default function SignIn() {
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
