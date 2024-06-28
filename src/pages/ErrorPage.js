@@ -14,14 +14,14 @@ export default function ErrorPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppBar position="static" elevation={10}>
+            <AppBar position="static" elevation={10} enableColorOnDark sx={{ backgroundColor: theme.palette.surface.main }}>
                 <Toolbar>
                     <Link to={"/"}>
                         <IconButton edge="start" aria-label="menu">
                             <Avatar src="logo192.png" />
                         </IconButton>
                     </Link>
-                    <Typography variant="h6" style={{ flexGrow: 1 }}>
+                    <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.surface.onMain }}>
                         Aqua Magna
                     </Typography>
                 </Toolbar>

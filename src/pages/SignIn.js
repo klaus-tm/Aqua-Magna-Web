@@ -77,72 +77,72 @@ export default function SignIn() {
     }, [isSignedIn, navigate]);
 
     return (
-    <ThemeProvider theme={theme}>
-        <AppBar position="static" elevation={10}>
-            <Toolbar>
-                <Link to={"/"}>
-                    <IconButton edge="start" aria-label="menu" >
-                        <Avatar src="logo192.png" />
-                    </IconButton >
-                </Link >
-                <Typography variant="h6" style={{ flexGrow: 1 }}>
-                    Aqua Magna
-                </Typography>
-            </Toolbar >
-        </AppBar >
-        <Box
-            style={{
-                position: 'fixed', // Apply fixed positioning
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center top',
-                zIndex: -1, // Ensure the background is behind other content
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
-            <Paper
-                elevation={10}
-                style={{ padding: 24, width: 300, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
-                <Avatar
-                    alt="Aqua Magna"
-                    src="logo512.png"
-                    style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
-                <Typography variant="h4" align="center" gutterBottom>
-                    Welcome back!
-                </Typography>
-                <Email onChange={handleEmailChange} value={email}/>
-                <Password onChange={handlePasswordChange} />
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    style={{ marginTop: "24px", borderRadius: "20" }}
-                    onClick={handleSignIn}
-                    disabled={loading}>
-                    {loading ? <CircularProgress size={24} /> : "Sign In"}
-                </Button>
-                <Button
-                    fullWidth
-                    variant="text"
-                    style={{ marginTop: "16px", marginBottom: "20px" }}
-                    href="/signUp">
-                    New company? Sign Up!
-                </Button>
-                <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={3000}
-                    onClose={handleCloseSnackbar}
-                    message={snackbarMessage}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                />
-            </Paper>
-        </Box>
-    </ThemeProvider >
+        <ThemeProvider theme={theme}>
+            <AppBar position="static" elevation={10} enableColorOnDark sx={{ backgroundColor: theme.palette.surface.main }}>
+                <Toolbar>
+                    <Link to={"/"}>
+                        <IconButton edge="start" aria-label="menu" >
+                            <Avatar src="logo192.png" />
+                        </IconButton >
+                    </Link >
+                    <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.surface.onMain }}>
+                        Aqua Magna
+                    </Typography>
+                </Toolbar >
+            </AppBar >
+            <Box
+                style={{
+                    position: 'fixed', // Apply fixed positioning
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    zIndex: -1, // Ensure the background is behind other content
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                <Paper
+                    elevation={10}
+                    style={{ padding: 24, width: 300, backgroundColor: theme.palette.secondary.container, borderRadius: "5%" }}>
+                    <Avatar
+                        alt="Aqua Magna"
+                        src="logo512.png"
+                        style={{ width: 70, height: 70, marginTop: "auto", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", }} />
+                    <Typography variant="h4" align="center" gutterBottom>
+                        Welcome back!
+                    </Typography>
+                    <Email onChange={handleEmailChange} value={email} />
+                    <Password onChange={handlePasswordChange} />
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: "24px", borderRadius: "20" }}
+                        onClick={handleSignIn}
+                        disabled={loading}>
+                        {loading ? <CircularProgress size={24} /> : "Sign In"}
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="text"
+                        style={{ marginTop: "16px", marginBottom: "20px" }}
+                        href="/signUp">
+                        New company? Sign Up!
+                    </Button>
+                    <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={3000}
+                        onClose={handleCloseSnackbar}
+                        message={snackbarMessage}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    />
+                </Paper>
+            </Box>
+        </ThemeProvider >
     );
 }

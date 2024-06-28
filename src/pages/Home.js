@@ -48,9 +48,9 @@ async function getUserName(uid) {
 function checkValues(ph, turbidity, conductivity, theme) {
     const phThreshhold = 7.5;
 
-    if(Math.abs(phThreshhold - ph) <= 1.0 && turbidity <= 1.0 && conductivity <= 0.8)
+    if (Math.abs(phThreshhold - ph) <= 1.0 && turbidity <= 1.0 && conductivity <= 0.8)
         return theme.palette.secondary.container;
-    else if(Math.abs(phThreshhold - ph) > 2.0 || turbidity > 5.0 || conductivity > 2.5)
+    else if (Math.abs(phThreshhold - ph) > 2.0 || turbidity > 5.0 || conductivity > 2.5)
         return theme.palette.error.container;
     return theme.palette.tertiary.container;
 }
@@ -127,17 +127,17 @@ export default function Home() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppBar position="static" elevation={10}>
+            <AppBar position="static" elevation={10} enableColorOnDark sx={{ backgroundColor: theme.palette.surface.main }}>
                 <Toolbar>
                     <Link to={"/"}>
                         <IconButton edge="start" aria-label="menu">
                             <Avatar src="logo192.png" />
                         </IconButton>
                     </Link>
-                    <Typography variant="h6" style={{ flexGrow: 1 }}>
+                    <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.surface.onMain }}>
                         Aqua Magna
                     </Typography>
-                    <Button href='/profile'>Profile</Button>
+                    <Button href='/profile' sx={{ color: theme.palette.primary.main }}>Profile</Button>
                 </Toolbar>
             </AppBar>
             <Box
